@@ -1,0 +1,73 @@
+<!-- expects flask.render_template call with params {title, form} -->
+{% extends "layout.html" %}             <!-- use layout.html template -->
+{% block body_content %}                <!-- plug in everything here where body_content is in the layout template -->
+    <div class="content-section">       <!-- wrapper for stuff on page -->
+        <form method="POST" action="">  <!-- send post request on submission of form -->
+            {{ form.hidden_tag() }}     <!-- adds csrf (cross site request forgery) token, something about security -->
+            <fieldset class="form-group">   <!-- creates editable form thingy -->
+                <legend class="border-bottom mb-4">Sign up?</legend>        <!-- title of form -->
+                <!-- each field in the form is basically copy-pasta, reads type of field from forms.py -->
+                <div class="form-group">                                    <!-- one element of form -->
+                    {{ form.userName.label(class="form-control-label")}}    <!-- referencing member of RegistrationForm in forms.py, print the first value of StringField ('User') -->
+                    {% if form.userName.errors %}                           <!-- check for errors (happens on tab to next section, before submit) -->
+                        {{ form.userName(class="form-control form-control-lg is-invalid") }}    <!-- username field styled angry red because not valid -->
+                            {% for error in form.userName.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.userName(class="form-control form-control-lg")}}    <!-- normal username field -->
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.emailAddr.label(class="form-control-label")}}
+                    {% if form.emailAddr.errors %}
+                        {{ form.emailAddr(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.emailAddr.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.emailAddr(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-control-label")}}
+                    {% if form.password.errors %}
+                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.password(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.passwordConfirm.label(class="form-control-label")}}
+                    {% if form.passwordConfirm.errors %}
+                        {{ form.passwordConfirm(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.passwordConfirm.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.passwordConfirm(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-gorup">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+    <!-- small message at bottom with link to login page -->
+    <div class="border-top pt-3">   <!-- draw line over block, pad 3 units from top -->
+        <small class="text-muted">  <!-- smaller font, muted is like lighter -->
+            Already have an account? <a class="ml-2" href="{{url_for('page_login')}}">Login</a> <!-- link to page defined in flaskblog.page_login() -->
+        </small>
+    </div>
+{% endblock body_content %}

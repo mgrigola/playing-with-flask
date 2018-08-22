@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body_content %}
+    <h1>Home Page</h1>
+    {% for post in posts %}
+    <article class="media content-section">     <!-- makes like a card thing to enclose each post -->
+        <div class="media-body">                <!-- not sure what purpose is... maybe organizational -->
+            <div class="article-metadata">      <!-- section at top of card with a line below it -->
+                <a class="mr-2" href="#">{{post.author}}</a>                <!-- link to user page (not done) -->
+                <small class="text-muted">{{post.date_created}}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{post.title}}</a></h2>   <!-- link to article/post (not done) -->
+            <p class="article-content">{{post.content}}</p>
+        </div>
+    </article>
+    {% endfor %}
+{% endblock body_content %}
